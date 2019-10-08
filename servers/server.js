@@ -16,10 +16,12 @@ io.on('connection', client => {
   client.on('event', data => {
     io.emit('chat message', msg);
   });
+  //好友添加
   client.on('add', data => {
     console.log(data, 'dd')
     io.emit('addfriend', data)
   })
+  //同意好友添加
   client.on('agree', async data => {
     let keys = Object.keys(data)
     let values = Object.values(data)
@@ -31,6 +33,16 @@ io.on('connection', client => {
       io.emit('success',data)
     }).catch(err => {
       console.log('err', err)
+    })
+  })
+  //发送聊天内容
+  client.on('chat',async data=>{
+    let keys = Object.keys(data)
+    let values = Object.values(data)
+    db(`insert into chat_list (${keys.join(',')}) values (${new Array(keys.length).fill('?').join(',')})`,values).then(res=>{
+      io.emit('chat_send',data)
+    }).catch(err=>{
+      console.log(err,'ee')
     })
   })
   client.on('disconnect', () => {

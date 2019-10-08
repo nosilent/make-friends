@@ -5,7 +5,7 @@ const router = new Router()
 router
   //获取用户信息
   .get('/api/user/:account',action.userInfo)
-  
+  .get('/api/chat_id/:chat_id',action.get_chat_list)
   //登录验证
   .post('/api/login', action.login)
   
@@ -17,6 +17,5 @@ router
 
   //在线状态改变
   .post('/api/online',action.online)
-
 
 module.exports = router

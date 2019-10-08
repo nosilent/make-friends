@@ -47,6 +47,11 @@ new Vue({
           }
         })
       }
+    },
+    chat_send(data){
+      if(data.chat_to===this.info.account){
+        this.chat_change({target:data.chat_from,chat_content:data})
+      }
     }
   },
   computed:{
@@ -65,7 +70,7 @@ new Vue({
     }
   },
   methods:{
-    ...mapMutations(['addfriend','change_friend_list','clear_notify','init_friend_list'])
+    ...mapMutations(['addfriend','change_friend_list','clear_notify','init_friend_list','chat_change'])
   },
   render: c => c(App),
   beforeDestroy() {

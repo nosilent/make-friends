@@ -129,12 +129,36 @@ module.exports = {
         await ctx.db(`select * from user where account in (${value})`).then(resolve => {
           ctx.body = {
             code: 0,
-            list:resolve
+            list: resolve
           }
         })
       }
     }).catch(err => {
       console.log('friend err', err)
+    })
+  },
+  async get_chat_list(ctx, nex) {
+    let {
+      chat_id
+    } = ctx.params
+    await ctx.db(`select * from chat_list where chat_id='${chat_id}'`).then(res => {
+      console.log(res, 'dd')
+      if (res.length) {
+        ctx.body = {
+          code: 0,
+          chat_content: res
+        }
+      } else {
+        ctx.body = {
+          code: 1,
+          chat_content: {}
+        }
+      }
+    }).catch(err => {
+      ctx.body = {
+        code: 1,
+        chat_content: {}
+      }
     })
   }
 }

@@ -3,11 +3,10 @@
     <navbar>
       <template #title>个人信息</template>
       <template #icon>
-        <img src="/src/icon/arrow-left.png" alt @click="$router.back(-1)" />
+        <img src="/src/icon/arrow-left.png" alt='头像' @click="$router.back(-1)" />
       </template>
     </navbar>
-    <div class="content">
-      <a-card hoverable>
+      <a-card hoverable class="content">
         <template class="ant-card-actions" slot="actions">
           <a-icon type="setting" />
           <a-icon type="edit" />
@@ -20,7 +19,6 @@
           />
         </a-card-meta>
       </a-card>
-    </div>
   </div>
 </template>
 
@@ -48,4 +46,5 @@ export default {
 .content {
   padding-top: 45px;
 }
+
 </style>

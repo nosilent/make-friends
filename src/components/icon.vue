@@ -16,7 +16,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang='less' scoped>
   .col{
     text-align: center;
     margin-top:20px;

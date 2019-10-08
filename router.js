@@ -11,6 +11,7 @@ import List from './src/components/list'
 import Journal from './src/components/journal'
 import Option from './src/components/option'
 import Add from './src/components/add'
+import Chat from './src/components/chat'
 
 export default new VueRouter({
   // mode:'history',
@@ -18,6 +19,7 @@ export default new VueRouter({
     {path:'/',component: Login},
     {path:'/login',component: Login},
     {path:'/user',component: User},
+    {path:'/chat/:account',component: Chat},
     {path:'/register',component: Register},
     {path:'/option',component: Option},
     {path:'/add',component: Add},
