@@ -127,7 +127,7 @@ module.exports = {
     await ctx.db(`select friend_id from friend_table where friend_id like '%${account}%'`).then(async res => {
       if (res.length) {
         let value = split_friendId(res, account).join(',')
-        await ctx.db(`select * from user where account in (${value})`).then(resolve => {
+        await ctx.db(`select username,photo,description,account from user where account in (${value})`).then(resolve => {
           ctx.body = {
             code: 0,
             list: resolve

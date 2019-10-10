@@ -72,7 +72,9 @@ new Vue({
   },
   watch: {
     info() {
-      this.get_friend_list()
+      if(Object.keys(this.info).length){
+        this.get_friend_list()
+      }
     }
   },
   methods: {
@@ -88,13 +90,13 @@ new Vue({
     }
   },
   render: c => c(App),
-  beforeDestroy() {
-    let account = this.info.account;
-    if (account) {
-      this.$axios.post("api/online", {
-        account,
-        online: 1
-      })
-    }
-  }
+  // beforeDestroy() {
+  //   let account = this.info.account;
+  //   if (account) {
+  //     this.$axios.post("api/online", {
+  //       account,
+  //       online: 1
+  //     })
+  //   }
+  // }
 })
