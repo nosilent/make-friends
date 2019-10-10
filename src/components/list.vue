@@ -44,4 +44,8 @@ export default {
 .content{
   padding: 0 10px;
 }
+.ant-list-item-meta-description{
+  max-height: 1.5rem;
+  overflow: hidden;
+}
 </style>
