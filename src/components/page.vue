@@ -121,14 +121,16 @@ export default {
     position: absolute;
     display: flex;
     align-items: center;
+    justify-content: center;
     left: 15px;
     top: 50%;
     height: 40px;
     width: 40px;
     margin-top: -20px;
+    border: 1px solid #ccc;
     border-radius: 20px;
     img {
-      height: 100%;
+      max-height: 32px;
       vertical-align: middle;
     }
   }

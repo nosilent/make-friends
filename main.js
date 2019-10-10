@@ -33,6 +33,11 @@ new Vue({
   el: '.root',
   router,
   store,
+  created(){
+    if(!this.info.account){
+      this.$router.push('/login')
+    }
+  },
   sockets: {
     addfriend(data) {
       if (data.addto === this.info.account) {
@@ -72,7 +77,7 @@ new Vue({
   },
   watch: {
     info() {
-      if(Object.keys(this.info).length){
+      if(this.info.account){
         this.get_friend_list()
       }
     }
