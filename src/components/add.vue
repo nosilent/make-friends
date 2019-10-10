@@ -40,7 +40,7 @@ export default {
   data() {
     return {
       search_account: "",
-      search_info: "",
+      search_info: ""
     };
   },
   components: {
@@ -66,7 +66,6 @@ export default {
     search() {
       if (this.search_account) {
         this.$axios.get(`api/user/${this.search_account}`).then(res => {
-          console.log(res);
           if (res.data.code) {
             this.$message.warning(res.data.msg);
           } else {
@@ -77,6 +76,7 @@ export default {
       }
     },
     add(add_account) {
+      this.show = false;
       this.$socket.emit("add", {
         addfrom: this.info.account || "000000000",
         addto: add_account

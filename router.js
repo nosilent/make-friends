@@ -12,6 +12,7 @@ import Journal from './src/components/journal'
 import Option from './src/components/option'
 import Add from './src/components/add'
 import Chat from './src/components/chat'
+import Set from './src/components/setting'
 
 export default new VueRouter({
   // mode:'history',
@@ -23,6 +24,7 @@ export default new VueRouter({
     {path:'/register',component: Register},
     {path:'/option',component: Option},
     {path:'/add',component: Add},
+    {path:'/setting',component: Set},
     {path:'/page',component: Page,children:[
       {path: 'journal',component:Journal},
       {path: 'msg',component:Msg},

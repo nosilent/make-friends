@@ -41,18 +41,23 @@
         </a-col>
       </a-row>
     </form>
+    <a-modal title='注册成功' v-model="show" :footer="null" :mask="false" >
+      <p>你的账号为: {{account}}</p>
+    </a-modal>
   </div>
 </template>
 
 <script>
 import Icon from "./icon";
-import { input, button, row, col, radioGroup, radio } from "ant-design-vue";
+import { input, button, row, col, radioGroup, radio, modal } from "ant-design-vue";
 export default {
   data() {
     return {
       username: "",
       password: "",
       againpwd: "",
+      show: false,
+      account: '',
     };
   },
   components: {
@@ -62,7 +67,8 @@ export default {
     aRow: row,
     aCol: col,
     aRadio: radio,
-    aRadioGroup: radio.Group
+    aRadioGroup: radio.Group,
+    aModal: modal
   },
   methods: {
     register() {
@@ -77,8 +83,8 @@ export default {
               if (res.data.code) {
                 this.$message.error(res.data.msg);
               } else {
-                this.$message.success(res.data.msg);
-                this.$router.push("/login");
+                this.account = res.data.account;
+                this.show = true; 
               }
             })
             .catch(err => {

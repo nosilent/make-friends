@@ -78,10 +78,9 @@ export default {
   },
   methods: {
     offline() {
-      let account = localStorage.getItem("account") || this.info.account;
+      let account = this.info.account;
       if (account) {
         this.$axios.post("api/online", { account, online: 1 }).then(res => {
-          console.log('1',res);
         });
       }
     },
@@ -92,9 +91,7 @@ export default {
       this.$router.push(item.path);
     },
     notify(){
-      console.log(1)
       this.$socket.on('addfriend',data=>{
-        console.log(data,'da')
       })
     }
   },

@@ -8,6 +8,7 @@ export default new Vuex.Store({
       info: {},
       friend_list: [],
       chat_list: {},
+      addNotify: [],
       option_list: [{
           icon: '/src/icon/near.png',
           text: '附近',
@@ -68,8 +69,15 @@ export default new Vuex.Store({
           text: '同城服务',
           show: false
         }
-      ],
-      addNotify: []
+      ]
+    }
+  },
+  getters:{
+    photo(state){
+      return  state.info.photo
+    },
+    description(state){
+        return state.info.description
     }
   },
   mutations: {
@@ -111,6 +119,24 @@ export default new Vuex.Store({
           })
         }
       }
+    },
+    logout(state){
+      state.addNotify = []
+      state.info = {}
+      state.friend_list = []
+      state.chat_list = {}
+    },
+    info_photo_change(state,value){
+      Vue.set(state.info,'photo','/src/icon/'+value+'.png')
+    },
+    info_description_change(state,value){
+      Vue.set(state.info,'description',value)
+    },
+    set_photo(state,value){
+      Vue.set(state.info,'photo',value)
+    },
+    set_description(state,value){
+      Vue.set(state.info,'description',value)
     }
   }
 })

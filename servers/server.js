@@ -45,6 +45,9 @@ io.on('connection', client => {
       console.log(err,'ee')
     })
   })
+  client.on('user_update',data=>{
+    io.emit('friend_info_update',data)
+  })
   client.on('disconnect', () => {
     console.log('user disconnected')
   });

@@ -28,6 +28,7 @@
       class="chat_input"
       v-model="chat_content"
       @pressEnter="send"
+      v-focus
     />
   </div>
 </template>
@@ -43,8 +44,14 @@ export default {
     };
   },
   created() {
-    console.log(this.$route.params.account, "route");
     this.chat_list_init();
+  },
+  directives:{
+    focus:{
+      inserted(el){
+        el.focus()
+      }
+    }
   },
   computed: {
     ...mapState(["friend_list", "info", "chat_list"]),

@@ -16,7 +16,7 @@ Vue.prototype.$axios = axios
 Vue.prototype.$message = message
 Vue.use(
   new VueSocket({
-    debug: true,
+    debug: false,
     connection: 'http://localhost:3000',
     vuex: {
       store,
@@ -25,64 +25,76 @@ Vue.use(
     }
   })
 )
-import {mapState,mapMutations} from 'vuex'
+import {
+  mapState,
+  mapMutations
+} from 'vuex'
 new Vue({
   el: '.root',
   router,
   store,
-  sockets:{
-    addfriend(data){
-      if(data.addto===this.info.account){
+  sockets: {
+    addfriend(data) {
+      if (data.addto === this.info.account) {
         this.addfriend(data)
       }
     },
-    success(data){
-      if(this.info.account === data.addto||this.info.account ===data.addfrom){
-        let params = this.info.account===data.addto? data.addfrom:data.addto
-        this.$axios.get(`api/user/${params}`).then(res=>{
-          console.log(res,'addd')
-          if(!res.data.code){
+    friend_info_update(data) {
+      if (this.friend_list.some(item => {
+          return item.account === data.account
+        })) {
+        this.get_friend_list()
+      }
+
+    },
+    success(data) {
+      if (this.info.account === data.addto || this.info.account === data.addfrom) {
+        let params = this.info.account === data.addto ? data.addfrom : data.addto
+        this.$axios.get(`api/user/${params}`).then(res => {
+          if (!res.data.code) {
             this.change_friend_list(res.data.userInfo)
             this.clear_notify(data)
           }
         })
       }
     },
-    chat_send(data){
-      if(data.chat_to===this.info.account){
-        this.chat_change({target:data.chat_from,chat_content:data})
+    chat_send(data) {
+      if (data.chat_to === this.info.account) {
+        this.chat_change({
+          target: data.chat_from,
+          chat_content: data
+        })
       }
     }
   },
-  computed:{
-    ...mapState(['info'])
+  computed: {
+    ...mapState(['info', 'friend_list'])
   },
-  watch:{
-    info(){
-      console.log('info_change')
-      this.$axios.post('api/get_friend_list',{account:this.info.account}).then(res=>{
-        if(!res.data.code){
-          this.init_friend_list(res.data.list)
-        }
-      }).catch(err=>{
-        console.log('err',err)
-      })
+  watch: {
+    info() {
+      this.get_friend_list()
     }
   },
-  methods:{
-    ...mapMutations(['addfriend','change_friend_list','clear_notify','init_friend_list','chat_change'])
+  methods: {
+    ...mapMutations(['addfriend', 'change_friend_list', 'clear_notify', 'init_friend_list', 'chat_change']),
+    get_friend_list() {
+      this.$axios.post('api/get_friend_list', {
+        account: this.info.account
+      }).then(res => {
+        if (!res.data.code) {
+          this.init_friend_list(res.data.list)
+        }
+      }).catch(err => {})
+    }
   },
   render: c => c(App),
   beforeDestroy() {
-    let account = localStorage.getItem("account") || this.info.account;
+    let account = this.info.account;
     if (account) {
-      localStorage.clear()
       this.$axios.post("api/online", {
         account,
         online: 1
-      }).then(res => {
-        console.log('1', res);
-      });
+      })
     }
   }
 })

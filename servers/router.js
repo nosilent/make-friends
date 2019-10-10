@@ -11,7 +11,7 @@ router
   
   //注册
   .post('/api/register', action.register)
-  
+  .post('/api/user_update/:account',action.user_update)
   //获取好友列表
   .post('/api/get_friend_list',action.get_friend_list)
 

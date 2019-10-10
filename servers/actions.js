@@ -79,12 +79,14 @@ module.exports = {
   async register(ctx, next) {
     let keys = Object.keys(ctx.request.body)
     let values = Object.values(ctx.request.body)
+    let account = product()
     keys.push('account')
-    values.push(product())
+    values.push(account)
     await ctx.db(`insert into user (${keys.join(',')}) values(${new Array(keys.length).fill('?').join(',')})`, values).then(res => {
       ctx.body = {
         code: 0,
-        msg: '注册成功'
+        msg: '注册成功',
+        account
       }
     }).catch(err => {
       ctx.body = {
@@ -100,7 +102,6 @@ module.exports = {
       online
     } = ctx.request.body
     await ctx.db(`update user set online=? where account=?`, [online, account]).then(res => {
-      console.log('res', res)
       if (res.affectedRows > 0 && res.changedRows > 0) {
         ctx.body = {
           code: 0,
@@ -134,7 +135,6 @@ module.exports = {
         })
       }
     }).catch(err => {
-      console.log('friend err', err)
     })
   },
   async get_chat_list(ctx, nex) {
@@ -142,7 +142,6 @@ module.exports = {
       chat_id
     } = ctx.params
     await ctx.db(`select * from chat_list where chat_id='${chat_id}'`).then(res => {
-      console.log(res, 'dd')
       if (res.length) {
         ctx.body = {
           code: 0,
@@ -158,6 +157,28 @@ module.exports = {
       ctx.body = {
         code: 1,
         chat_content: {}
+      }
+    })
+  },
+  async user_update(ctx,next){
+    let {account} = ctx.params
+    let {photo,description} = ctx.request.body
+    await ctx.db(`update user set photo=?,description=? where account=?`,[photo,description,account]).then(res=>{
+      if(res.changedRows||res.affectedRows){
+        ctx.body={
+          code:0,
+          msg:'保存成功'
+        }
+      }else{
+        ctx.body={
+          code:1,
+          msg:'操作失败'
+        }
+      }
+    }).catch(err=>{
+      ctx.body={
+        code:1,
+        msg:'操作失败'
       }
     })
   }

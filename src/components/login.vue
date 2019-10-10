@@ -48,14 +48,11 @@ export default {
           account: this.account,
           password: this.password
         }).then(res=>{
-          console.log(res)
           if(res.data.code){
             this.$message.error(res.data.msg)
           }else{
             this.$message.success(res.data.msg)
             this.keep_info(res.data.info)
-            localStorage.setItem('userid',res.data.info.id)
-            localStorage.setItem('account',res.data.info.account)
             this.$router.push('/page/list')
           }
         }).catch(err=>{
